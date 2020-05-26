@@ -1,0 +1,92 @@
+biblioteca
+
+tabla
+
+usuarios
+	codigo primary key varchar(10)
+	nombre
+	apellido
+	cargo
+	estado
+	 
+
+cliente	
+	codigo_client primary key varchar(10)
+	nombre_client
+	Apellido_client
+	Documento_client
+	n_telefono_client
+	estado_client
+	cantidad_libro int 
+	
+	 
+	
+Libros
+	id_libro
+	nombre 
+	Descripcion 
+	Paginas
+	
+	
+autor	
+	id_autor 
+	nombre
+	fecha nacimiento 
+	fecha Muerte 
+ 
+
+
+ext_libro_autor 
+	id_ext_libro_autor 
+	id_autor
+	id_libro
+	id_categoria_libro
+	existencia
+	estado 
+
+categoria_libro 
+	id_categoria_libro
+	nombre_categoria_libro
+
+
+
+Prestamo
+	codigo
+	codigo_client
+	ext_libro_autor
+	tipo_prestamo 
+	fecha_prestamo
+	fecha_devolucion
+	costo_mora  
+	estado_prestamo
+
+
+
+@p_flag int,
+@out_valor varchar(20) output
+as
+declare @v_cod_generic varchar(20);
+declare @v_final varchar(20);
+begin
+set @v_cod_generic ='';
+set @v_final ='';
+
+ 
+
+    if @p_flag=1
+        --codigo empleado
+        select top 1 @v_cod_generic= cod_empleado from empleados order by cod_empleado desc;
+    else
+        --codigo cliente
+        select top 1 @v_cod_generic= cod_cliente from clientes order by cod_cliente desc;
+    
+    --hacemos un replace con str y convertimos el valor incrementado con una logitud de 10 y lo spaceamos en 1 y agregamos el 0
+    select @v_final = REPLACE(STR(CONVERT(bigint, @v_cod_generic)+1, 10), SPACE(1), '0');
+
+ 
+
+    --variable de salida par usuarios
+    select @out_valor = @v_final;
+			
+
+
